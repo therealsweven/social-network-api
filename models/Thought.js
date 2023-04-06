@@ -1,4 +1,4 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, Types, model } = require("mongoose");
 
 // subdocument schema for reactions
 const reactionSchema = new Schema({
@@ -33,6 +33,9 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      //   get: (date) => {
+      //     if (date) return date.toISOString().split("T") [0];
+      //   },
     },
     username: {
       type: String,
