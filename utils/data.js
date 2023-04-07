@@ -1,15 +1,20 @@
 // for demo
 // USER
-
 // {
 // 	"username": "tommyboy819",
 // 	"email": "tommy@gmail.com"
 // }
 
+// THOUGHT
 // {
 //   "thoughtText": "Testing TESTING TESTING",
-//   "username": "djbobs",
-// },
+//   "username": "djbobs"
+// }
+//REACTION
+// {
+//   "reactionBody": "Testing REACTION TESTING TESTING",
+//   "username": "sean123"
+// }
 
 const users = [
   {

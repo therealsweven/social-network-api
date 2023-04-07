@@ -55,30 +55,23 @@ module.exports = {
   },
 
   // Delete a user
-  deleteUser(req, res) {
-    User.findOneAndRemove({ _id: req.params.userId })
-      .then(
-        (user) =>
-          !user
-            ? res.status(404).json({ message: "No such user exists" })
-            : res.status(200).json({ message: "User deleted" })
-        //   Thoughts.findOneAndUpdate(
-        //       { friends: req.params.userId },
-        //       { $pull: { friends: req.params.userId } },
-        //       { new: true }
-        //     )
-      )
-      //   .then((course) =>
-      //     !course
-      //       ? res.status(404).json({
-      //           message: "User deleted, but he had no friends",
-      //         })
-      //       : res.json({ message: "User successfully deleted" })
-      //   )
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findOneAndRemove({ _id: req.params.userId });
+      console.log(user);
+      const thoughts = await Thought.deleteMany({
+        username: { $in: user.username },
       });
+
+      !user
+        ? res.status(404).json({ message: "No such user exists" })
+        : res
+            .status(200)
+            .json({ message: "User and associated thoughts deleted" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   },
 
   // Add a friend
