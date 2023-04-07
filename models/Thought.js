@@ -51,6 +51,7 @@ const thoughtSchema = new Schema(
       default: Date.now(),
       get: (date) => {
         if (date)
+          // format date
           return (
             date.toISOString().split("T")[0] +
             " at " +
