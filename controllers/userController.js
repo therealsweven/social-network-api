@@ -42,7 +42,7 @@ module.exports = {
 
   // Update a user document
   updateUser(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId })
+    User.findOneAndUpdate({ _id: req.params.userId }, req.body)
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No such user exists" })
@@ -82,18 +82,50 @@ module.exports = {
   },
 
   // Add a friend
-  //   addFriend(req, res) {
-  //     User.findOneAndUpdate({ _id: req.params.userId })
-  //       .then((user) =>
-  //         !user
-  //           ? res.status(404).json({ message: "No such user exists" })
-  //           : res.json(user)
-  //       )
-  //       .catch((err) => {
-  //         console.log(err);
-  //         res.status(500).json(err);
-  //       });
-  //   },
+  async addFriend(req, res) {
+    try {
+      // add to friends array
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $push: { friends: req.params.friendId } }
+      );
+
+      // do it for other person
+      await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $push: { friends: req.params.userId } }
+      );
+
+      !user
+        ? res.status(404).json({ message: "User or friend not found" })
+        : res.json({ message: "Added as friends" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 
   // Remove a friend
+  async removeFriend(req, res) {
+    try {
+      // remove from friends array
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { friends: req.params.friendId } }
+      );
+
+      // do it for other person
+      await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friends: req.params.userId } }
+      );
+
+      !user
+        ? res.status(404).json({ message: "Error. User or friend not found" })
+        : res.json({ message: "Friendship is TERMINATED" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 };

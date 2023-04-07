@@ -48,7 +48,9 @@ module.exports = {
 
   // Update a thought
   updateThought(req, res) {
-    Thought.findOneAndUpdate({ _id: req.params.thoughtId })
+    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, req.body)
+      .select("-__v")
+      .lean()
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: "No such thought exists" })
@@ -63,24 +65,11 @@ module.exports = {
   // Delete a thought
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
-      .then(
-        (user) =>
-          !user
-            ? res.status(404).json({ message: "No such user exists" })
-            : res.status(200).json({ message: "User deleted" })
-        //   Thoughts.findOneAndUpdate(
-        //       { friends: req.params.userId },
-        //       { $pull: { friends: req.params.userId } },
-        //       { new: true }
-        //     )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No such thought exists" })
+          : res.status(200).json({ message: "Thought deleted" })
       )
-      //   .then((course) =>
-      //     !course
-      //       ? res.status(404).json({
-      //           message: "User deleted, but he had no friends",
-      //         })
-      //       : res.json({ message: "User successfully deleted" })
-      //   )
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);

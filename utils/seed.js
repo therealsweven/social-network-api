@@ -8,16 +8,16 @@ connection.on("error", (err) => err);
 connection.once("open", async () => {
   console.log("connected");
 
-  // Drop existing courses
+  // Drop existing users
   await User.deleteMany({});
 
-  // Drop existing students
+  // Drop existing thoughts
   await Thought.deleteMany({});
 
-  // Add users to the collection and await the results
+  // Add users to the collection and await results
   await User.collection.insertMany(users);
 
-  // Add thoughts to the collection and await the results
+  // Add thoughts to the collection and await results
   await Thought.collection.insertMany(thoughts);
 
   // Log out the seed data to indicate what should appear in the database
