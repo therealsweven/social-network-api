@@ -4,7 +4,7 @@
 
 ## Description
 
-This is a back-end API to be used for a basic social network. The API consists of users, thoughts, and reactions as documents of thoughts. The user may add and remove friends, create and delete thoughts, and add and remove reactions to thoughts.
+This is a back-end API to be used for a basic social network. The API consists of users, thoughts, and reactions as subdocuments of thoughts. The user may add and remove friends, create and delete thoughts, and add and remove reactions to thoughts.
 
 Walkthrough video: https://drive.google.com/drive/folders/1dB8lRJZZIFaRWb9waOsWbr7f-Gosy3Fl?usp=sharing
 
